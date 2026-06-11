@@ -266,15 +266,21 @@
     .plano-card.popular { transform: none; }
     .catalogo-inner { grid-template-columns: 1fr; }
     .catalogo-mockup { display: none; }
-    .hero-preview-inner { flex-direction: column; }
     footer { flex-direction: column; text-align: center; }
-    * { max-width: 100%; box-sizing: border-box; }
-    img, video, iframe, table { max-width: 100% !important; }
-    .hero-preview { overflow: hidden; width: 100%; }
-    .hero-preview-inner { overflow: hidden; width: 100%; }
-    .stat-card { min-width: 0 !important; width: 100%; }
-    section { overflow: hidden; }
-    div { max-width: 100%; }
+    body { overflow-x: hidden; }
+    .hero-preview { width: calc(100% - 0px); overflow: hidden; margin: 40px 0 0; }
+    .hero-preview-inner { 
+      flex-direction: column; 
+      gap: 10px;
+      padding: 16px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .stat-card { 
+      min-width: 0 !important; 
+      width: 100% !important;
+      box-sizing: border-box;
+    }
   }
 </style>
 </head>
