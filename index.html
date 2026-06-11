@@ -4,597 +4,404 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rakko — Sistema de Gestão para Lojas de Moda</title>
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="description" content="Controle sua loja de moda com facilidade. PDV, estoque, catálogo digital pelo WhatsApp e muito mais. A partir de R$59,99/mês.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --black: #0a0a0a;
-    --gray: #6b7280;
-    --light: #f9fafb;
-    --border: #e5e7eb;
-    --green: #166534;
-    --green-bg: #f0fdf4;
-  }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--black); background: #fff; }
-  a { text-decoration: none; color: inherit; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { overflow-x: hidden; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #0a0a0a; background: #fff; overflow-x: hidden; width: 100%; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
 
-  /* NAV */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    height: 60px;
-    display: flex; align-items: center; justify-content: space-between;
-    max-width: 1100px; margin: 0 auto;
-  }
-  .nav-wrapper { max-width: 1100px; margin: 0 auto; width: 100%; display: flex; align-items: center; justify-content: space-between; }
-  nav .logo { display: flex; align-items: center; gap: 10px; }
-  nav .logo-icon {
-    width: 36px; height: 36px;
-    background: var(--black); border-radius: 9px;
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-weight: 800; font-size: 16px; font-style: italic; font-family: Georgia, serif;
-  }
-  nav .logo-name { font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
-  nav .btn-nav {
-    padding: 8px 20px; background: var(--black); color: #fff;
-    border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer;
-    border: none; transition: opacity 0.15s;
-  }
-  nav .btn-nav:hover { opacity: 0.85; }
-  nav-sticky { position: fixed; top: 0; left: 0; right: 0; }
+.container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-  /* HERO */
-  .hero {
-    padding: 80px 24px 80px;
-    text-align: center;
-    background: linear-gradient(180deg, #f9fafb 0%, #fff 100%);
-    border-bottom: 1px solid var(--border);
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: var(--green-bg); color: var(--green);
-    border: 1px solid #bbf7d0; border-radius: 99px;
-    padding: 4px 14px; font-size: 13px; font-weight: 500;
-    margin-bottom: 24px;
-  }
-  .hero h1 {
-    font-size: clamp(32px, 5vw, 56px);
-    font-weight: 700; line-height: 1.1;
-    letter-spacing: -0.03em; color: var(--black);
-    max-width: 700px; margin: 0 auto 20px;
-  }
-  .hero h1 span { color: #2563eb; }
-  .hero p {
-    font-size: clamp(16px, 2vw, 20px);
-    color: var(--gray); max-width: 520px;
-    margin: 0 auto 36px; line-height: 1.6;
-  }
-  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary {
-    padding: 14px 28px; background: var(--black); color: #fff;
-    border-radius: 10px; font-size: 15px; font-weight: 600;
-    cursor: pointer; border: none; transition: all 0.15s;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
-  .btn-secondary {
-    padding: 14px 28px; background: #fff; color: var(--black);
-    border-radius: 10px; font-size: 15px; font-weight: 500;
-    cursor: pointer; border: 1px solid var(--border); transition: all 0.15s;
-  }
-  .btn-secondary:hover { background: var(--light); }
-  .hero-preview {
-    margin-top: 60px;
-    background: var(--black); border-radius: 16px;
-    padding: 3px; max-width: 900px; margin: 60px auto 0;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.12);
-  }
-  .hero-preview-inner {
-    background: #111827; border-radius: 14px;
-    padding: 20px 24px; display: flex; gap: 16px; align-items: flex-start;
-  }
-  .stat-card {
-    background: #1f2937; border-radius: 10px; padding: 16px 20px;
-    flex: 1; min-width: 0;
-  }
-  .stat-card .label { font-size: 11px; color: #6b7280; font-weight: 500; margin-bottom: 6px; text-transform: uppercase; }
-  .stat-card .value { font-size: 24px; font-weight: 700; color: #fff; }
-  .stat-card .sub { font-size: 11px; color: #4b5563; margin-top: 3px; }
+/* NAV */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #e5e7eb; }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon { width: 36px; height: 36px; background: #0a0a0a; border-radius: 9px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 16px; font-style: italic; font-family: Georgia, serif; flex-shrink: 0; }
+.logo-name { font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
+.btn-nav { padding: 8px 18px; background: #0a0a0a; color: #fff; border-radius: 8px; font-size: 14px; font-weight: 500; white-space: nowrap; }
 
-  /* SOCIAL PROOF */
-  .social-proof {
-    padding: 20px 24px;
-    background: #fff;
-    border-bottom: 1px solid var(--border);
-    text-align: center;
-  }
-  .social-proof p { font-size: 13px; color: var(--gray); }
-  .social-proof strong { color: var(--black); }
+/* HERO */
+.hero { padding: 60px 0; text-align: center; background: linear-gradient(180deg,#f9fafb 0%,#fff 100%); border-bottom: 1px solid #e5e7eb; }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; border-radius: 99px; padding: 4px 14px; font-size: 13px; font-weight: 500; margin-bottom: 20px; }
+.hero h1 { font-size: clamp(28px, 5vw, 52px); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 16px; }
+.hero h1 span { color: #2563eb; }
+.hero p { font-size: clamp(15px, 2vw, 18px); color: #6b7280; max-width: 520px; margin: 0 auto 32px; line-height: 1.6; }
+.hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-primary { padding: 13px 24px; background: #0a0a0a; color: #fff; border-radius: 10px; font-size: 15px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+.btn-secondary { padding: 13px 24px; background: #fff; color: #0a0a0a; border-radius: 10px; font-size: 15px; font-weight: 500; border: 1px solid #e5e7eb; }
 
-  /* FEATURES */
-  .section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
-  .section-label {
-    font-size: 13px; font-weight: 600; color: #2563eb;
-    text-transform: uppercase; letter-spacing: 0.08em;
-    margin-bottom: 12px;
-  }
-  .section-title {
-    font-size: clamp(28px, 4vw, 42px); font-weight: 700;
-    letter-spacing: -0.02em; color: var(--black);
-    max-width: 500px; line-height: 1.2; margin-bottom: 48px;
-  }
-  .features-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-  }
-  .feature-card {
-    background: var(--light); border: 1px solid var(--border);
-    border-radius: 12px; padding: 24px;
-    transition: all 0.15s;
-  }
-  .feature-card:hover { background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transform: translateY(-2px); }
-  .feature-icon { font-size: 28px; margin-bottom: 14px; }
-  .feature-card h3 { font-size: 16px; font-weight: 600; color: var(--black); margin-bottom: 8px; }
-  .feature-card p { font-size: 14px; color: var(--gray); line-height: 1.6; }
-  .feature-badge {
-    display: inline-block; background: #fef3c7; color: #92400e;
-    font-size: 10px; font-weight: 700; padding: 2px 8px;
-    border-radius: 99px; margin-top: 10px; text-transform: uppercase;
-  }
+/* PREVIEW */
+.preview-wrap { margin-top: 50px; background: #0a0a0a; border-radius: 14px; padding: 3px; }
+.preview-inner { background: #111827; border-radius: 12px; padding: 16px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 600px) { .preview-inner { grid-template-columns: repeat(4, 1fr); } }
+.stat-card { background: #1f2937; border-radius: 10px; padding: 14px 16px; }
+.stat-label { font-size: 10px; color: #6b7280; font-weight: 500; margin-bottom: 6px; text-transform: uppercase; }
+.stat-value { font-size: 20px; font-weight: 700; color: #fff; }
+.stat-sub { font-size: 10px; color: #4b5563; margin-top: 3px; }
 
-  /* DESTAQUE CATALOGO */
-  .catalogo-section {
-    background: var(--black); color: #fff;
-    padding: 80px 24px;
-  }
-  .catalogo-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-  .catalogo-content .tag {
-    display: inline-block; background: #fbbf24; color: #78350f;
-    font-size: 11px; font-weight: 700; padding: 3px 10px;
-    border-radius: 99px; margin-bottom: 20px; text-transform: uppercase;
-  }
-  .catalogo-content h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 20px; }
-  .catalogo-content p { font-size: 16px; color: #9ca3af; line-height: 1.7; margin-bottom: 28px; }
-  .catalogo-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-  .catalogo-list li { display: flex; align-items: center; gap: 10px; font-size: 15px; color: #d1d5db; }
-  .catalogo-list li::before { content: "✓"; color: #4ade80; font-weight: 700; }
-  .catalogo-mockup {
-    background: #1f2937; border-radius: 16px; padding: 24px;
-    border: 1px solid #374151;
-  }
-  .mockup-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-  .mockup-header .dot { width: 10px; height: 10px; border-radius: 50%; }
-  .mockup-product { background: #111827; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
-  .mockup-img { width: 44px; height: 44px; border-radius: 8px; background: #374151; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-  .mockup-info { flex: 1; }
-  .mockup-info .name { font-size: 13px; font-weight: 500; color: #f3f4f6; margin-bottom: 3px; }
-  .mockup-info .price { font-size: 12px; color: #4ade80; font-weight: 600; }
-  .mockup-btn { background: #25D366; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
+/* SOCIAL PROOF */
+.social { padding: 14px 20px; text-align: center; border-bottom: 1px solid #e5e7eb; }
+.social p { font-size: 13px; color: #6b7280; }
 
-  /* PLANOS */
-  .planos-section { padding: 80px 24px; background: var(--light); }
-  .planos-inner { max-width: 1100px; margin: 0 auto; }
-  .planos-header { text-align: center; margin-bottom: 48px; }
-  .planos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .plano-card {
-    background: #fff; border: 1px solid var(--border);
-    border-radius: 16px; padding: 32px; position: relative;
-    transition: all 0.15s;
-  }
-  .plano-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-  .plano-card.popular {
-    border: 2px solid var(--black);
-    transform: scale(1.03);
-  }
-  .popular-badge {
-    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-    background: var(--black); color: #fff;
-    font-size: 11px; font-weight: 700; padding: 3px 14px;
-    border-radius: 99px; text-transform: uppercase; white-space: nowrap;
-  }
-  .plano-name { font-size: 14px; font-weight: 600; color: var(--gray); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .plano-price { font-size: 42px; font-weight: 700; color: var(--black); letter-spacing: -0.03em; line-height: 1; margin-bottom: 4px; }
-  .plano-price span { font-size: 16px; font-weight: 500; color: var(--gray); }
-  .plano-desc { font-size: 13px; color: var(--gray); margin-bottom: 24px; }
-  .plano-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
-  .plano-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-  .plano-features li { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; color: #374151; }
-  .plano-features li .check { color: var(--green); font-weight: 700; margin-top: 1px; flex-shrink: 0; }
-  .btn-plano {
-    width: 100%; padding: 13px; border-radius: 10px;
-    font-size: 14px; font-weight: 600; cursor: pointer;
-    transition: all 0.15s; border: none;
-  }
-  .btn-plano-dark { background: var(--black); color: #fff; }
-  .btn-plano-dark:hover { opacity: 0.85; }
-  .btn-plano-light { background: var(--light); color: var(--black); border: 1px solid var(--border) !important; }
-  .btn-plano-light:hover { background: #e5e7eb; }
+/* FEATURES */
+.section { padding: 60px 0; }
+.section-label { font-size: 12px; font-weight: 600; color: #2563eb; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+.section-title { font-size: clamp(24px, 4vw, 38px); font-weight: 700; letter-spacing: -0.02em; max-width: 480px; line-height: 1.2; margin-bottom: 40px; }
+.features-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 500px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .features-grid { grid-template-columns: repeat(3, 1fr); } }
+.feature-card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 22px; }
+.feature-icon { font-size: 26px; margin-bottom: 12px; }
+.feature-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+.feature-card p { font-size: 13px; color: #6b7280; line-height: 1.6; }
+.badge-new { display: inline-block; background: #fef3c7; color: #92400e; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-top: 8px; text-transform: uppercase; }
 
-  /* FAQ */
-  .faq-section { padding: 80px 24px; max-width: 700px; margin: 0 auto; }
-  .faq-title { font-size: clamp(28px, 4vw, 36px); font-weight: 700; letter-spacing: -0.02em; text-align: center; margin-bottom: 48px; }
-  .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; cursor: pointer; }
-  .faq-question { font-size: 15px; font-weight: 500; color: var(--black); display: flex; justify-content: space-between; align-items: center; }
-  .faq-answer { font-size: 14px; color: var(--gray); line-height: 1.7; padding-top: 12px; display: none; }
-  .faq-item.open .faq-answer { display: block; }
-  .faq-item.open .faq-icon { transform: rotate(45deg); }
-  .faq-icon { transition: transform 0.2s; font-size: 20px; color: var(--gray); flex-shrink: 0; }
+/* CATALOGO */
+.catalogo { background: #0a0a0a; color: #fff; padding: 60px 0; }
+.catalogo-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
+@media (min-width: 768px) { .catalogo-grid { grid-template-columns: 1fr 1fr; align-items: center; } }
+.catalogo-tag { display: inline-block; background: #fbbf24; color: #78350f; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px; margin-bottom: 16px; text-transform: uppercase; }
+.catalogo h2 { font-size: clamp(24px, 4vw, 38px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px; }
+.catalogo p { font-size: 15px; color: #9ca3af; line-height: 1.7; margin-bottom: 24px; }
+.catalogo-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.catalogo-list li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #d1d5db; }
+.catalogo-list li::before { content: "✓"; color: #4ade80; font-weight: 700; flex-shrink: 0; }
+.mockup { background: #1f2937; border-radius: 14px; padding: 20px; border: 1px solid #374151; }
+.mockup-dots { display: flex; gap: 6px; margin-bottom: 16px; }
+.mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mockup-item { background: #111827; border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+.mockup-emoji { width: 40px; height: 40px; border-radius: 8px; background: #374151; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.mockup-info { flex: 1; min-width: 0; }
+.mockup-name { font-size: 13px; font-weight: 500; color: #f3f4f6; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mockup-price { font-size: 12px; color: #4ade80; font-weight: 600; }
+.mockup-btn { background: #25D366; color: #fff; border: none; border-radius: 6px; padding: 6px 10px; font-size: 11px; font-weight: 600; cursor: pointer; flex-shrink: 0; }
 
-  /* CTA FINAL */
-  .cta-section {
-    padding: 80px 24px; text-align: center;
-    background: var(--black); color: #fff;
-  }
-  .cta-section h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
-  .cta-section p { font-size: 18px; color: #9ca3af; margin-bottom: 36px; }
-  .btn-whatsapp {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: #25D366; color: #fff;
-    padding: 16px 32px; border-radius: 12px;
-    font-size: 16px; font-weight: 700; cursor: pointer;
-    border: none; transition: all 0.15s;
-    text-decoration: none;
-  }
-  .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,0.3); }
+/* PLANOS */
+.planos { padding: 60px 0; background: #f9fafb; }
+.planos-header { text-align: center; margin-bottom: 40px; }
+.planos-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 768px) { .planos-grid { grid-template-columns: repeat(3, 1fr); } }
+.plano { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 28px; position: relative; }
+.plano.popular { border: 2px solid #0a0a0a; }
+@media (min-width: 768px) { .plano.popular { transform: scale(1.03); } }
+.popular-tag { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: #0a0a0a; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 12px; border-radius: 99px; white-space: nowrap; }
+.plano-name { font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+.plano-price { font-size: 38px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 4px; }
+.plano-price small { font-size: 16px; font-weight: 500; color: #6b7280; }
+.plano-desc { font-size: 13px; color: #6b7280; margin-bottom: 20px; }
+.plano hr { border: none; border-top: 1px solid #e5e7eb; margin: 20px 0; }
+.plano-items { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.plano-items li { display: flex; gap: 8px; font-size: 13px; color: #374151; }
+.plano-items li span { color: #166534; font-weight: 700; flex-shrink: 0; }
+.btn-plano { display: block; width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 600; text-align: center; border: none; cursor: pointer; }
+.btn-dark { background: #0a0a0a; color: #fff; }
+.btn-light { background: #f9fafb; color: #0a0a0a; border: 1px solid #e5e7eb !important; }
+.compare-box { margin-top: 24px; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 16px 20px; text-align: center; }
+.compare-box p { font-size: 13px; color: #6b7280; }
 
-  /* FOOTER */
-  footer {
-    padding: 32px 24px; border-top: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-    max-width: 1100px; margin: 0 auto; flex-wrap: wrap; gap: 12px;
-  }
-  footer p { font-size: 13px; color: var(--gray); }
+/* FAQ */
+.faq { padding: 60px 0; }
+.faq-title { font-size: clamp(24px, 4vw, 36px); font-weight: 700; letter-spacing: -0.02em; text-align: center; margin-bottom: 40px; }
+.faq-wrap { max-width: 700px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid #e5e7eb; padding: 18px 0; cursor: pointer; }
+.faq-q { font-size: 15px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.faq-icon { font-size: 20px; color: #6b7280; flex-shrink: 0; transition: transform 0.2s; }
+.faq-a { font-size: 14px; color: #6b7280; line-height: 1.7; padding-top: 10px; display: none; }
+.faq-item.open .faq-a { display: block; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
 
-  /* WHATSAPP FLOAT */
-  .whatsapp-float {
-    position: fixed; bottom: 24px; right: 24px; z-index: 999;
-    background: #25D366; color: #fff;
-    width: 56px; height: 56px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 26px; box-shadow: 0 4px 20px rgba(37,211,102,0.4);
-    cursor: pointer; transition: all 0.15s; text-decoration: none;
-  }
-  .whatsapp-float:hover { transform: scale(1.1); }
+/* CTA */
+.cta { padding: 60px 0; text-align: center; background: #0a0a0a; color: #fff; }
+.cta h2 { font-size: clamp(24px, 4vw, 44px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 14px; }
+.cta p { font-size: 17px; color: #9ca3af; margin-bottom: 32px; }
+.btn-wa { display: inline-flex; align-items: center; gap: 10px; background: #25D366; color: #fff; padding: 15px 30px; border-radius: 12px; font-size: 16px; font-weight: 700; }
+.cta-note { font-size: 12px; color: #4b5563; margin-top: 16px; }
 
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    .planos-grid { grid-template-columns: 1fr; }
-    .plano-card.popular { transform: none; }
-    .catalogo-inner { grid-template-columns: 1fr; }
-    .catalogo-mockup { display: none; }
-    footer { flex-direction: column; text-align: center; }
-    body { overflow-x: hidden; }
-    .hero-preview { width: calc(100% - 0px); overflow: hidden; margin: 40px 0 0; }
-    .hero-preview-inner { 
-      flex-direction: column; 
-      gap: 10px;
-      padding: 16px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .stat-card { 
-      min-width: 0 !important; 
-      width: 100% !important;
-      box-sizing: border-box;
-    }
-  }
+/* FOOTER */
+.footer { border-top: 1px solid #e5e7eb; padding: 28px 0; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.footer p { font-size: 13px; color: #6b7280; }
+
+/* WHATSAPP FLOAT */
+.wa-float { position: fixed; bottom: 24px; right: 24px; z-index: 999; background: #25D366; color: #fff; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<div style="position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;">
-  <div style="max-width:1100px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div style="width:36px;height:36px;background:#0a0a0a;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;font-style:italic;font-family:Georgia,serif;">R</div>
-      <span style="font-weight:700;font-size:18px;letter-spacing:-0.02em;">Rakko</span>
+<nav class="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-icon">R</div>
+        <span class="logo-name">Rakko</span>
+      </div>
+      <a href="https://wa.me/5584981022946?text=Ol%C3%A1!%20Quero%20conhecer%20o%20Rakko" target="_blank" class="btn-nav">Falar com vendas</a>
     </div>
-    <a href="https://wa.me/5584981022946?text=Ol%C3%A1!%20Quero%20conhecer%20o%20Rakko" target="_blank"
-      style="padding:8px 20px;background:#0a0a0a;color:#fff;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none;">
-      Falar com vendas
-    </a>
   </div>
-</div>
+</nav>
 
 <!-- HERO -->
-<section style="padding:80px 24px;text-align:center;background:linear-gradient(180deg,#f9fafb 0%,#fff 100%);border-bottom:1px solid #e5e7eb;">
-  <div style="max-width:700px;margin:0 auto;">
-    <div style="display:inline-flex;align-items:center;gap:6px;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;border-radius:99px;padding:4px 14px;font-size:13px;font-weight:500;margin-bottom:24px;">
-      🚀 Sistema feito para lojas de moda
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">🚀 Sistema feito para lojas de moda</div>
+    <h1>Gerencie sua loja de moda<br><span>com muito mais facilidade</span></h1>
+    <p>PDV, estoque, catálogo digital pelo WhatsApp, financeiro e muito mais. Tudo em um só sistema, a partir de R$59,99/mês.</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/5584981022946?text=Ol%C3%A1!%20Quero%20conhecer%20o%20Rakko" target="_blank" class="btn-primary">💬 Falar com vendas</a>
+      <a href="#funcionalidades" class="btn-secondary">Ver funcionalidades →</a>
     </div>
-    <h1 style="font-size:clamp(32px,5vw,56px);font-weight:700;line-height:1.1;letter-spacing:-0.03em;color:#0a0a0a;margin-bottom:20px;">
-      Gerencie sua loja de moda<br><span style="color:#2563eb;">com muito mais facilidade</span>
-    </h1>
-    <p style="font-size:clamp(16px,2vw,18px);color:#6b7280;margin-bottom:36px;line-height:1.6;">
-      PDV, estoque, catálogo digital pelo WhatsApp, financeiro e muito mais. Tudo em um só sistema, a partir de R$59,99/mês.
-    </p>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-      <a href="https://wa.me/5584981022946?text=Ol%C3%A1!%20Quero%20conhecer%20o%20Rakko" target="_blank"
-        style="padding:14px 28px;background:#0a0a0a;color:#fff;border-radius:10px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;">
-        💬 Falar com vendas
-      </a>
-      <a href="#funcionalidades"
-        style="padding:14px 28px;background:#fff;color:#0a0a0a;border-radius:10px;font-size:15px;font-weight:500;border:1px solid #e5e7eb;text-decoration:none;">
-        Ver funcionalidades →
-      </a>
-    </div>
-  </div>
 
-  <!-- Preview stats -->
-  <div style="max-width:800px;margin:60px auto 0;background:#0a0a0a;border-radius:16px;padding:3px;box-shadow:0 24px 80px rgba(0,0,0,0.12);">
-    <div style="background:#111827;border-radius:14px;padding:20px 24px;display:flex;gap:12px;flex-wrap:wrap;">
-      <div style="background:#1f2937;border-radius:10px;padding:16px 20px;flex:1;min-width:140px;">
-        <div style="font-size:11px;color:#6b7280;font-weight:500;margin-bottom:6px;text-transform:uppercase;">Vendas hoje</div>
-        <div style="font-size:24px;font-weight:700;color:#fff;">R$ 1.240</div>
-        <div style="font-size:11px;color:#4b5563;margin-top:3px;">8 vendas realizadas</div>
-      </div>
-      <div style="background:#1f2937;border-radius:10px;padding:16px 20px;flex:1;min-width:140px;">
-        <div style="font-size:11px;color:#6b7280;font-weight:500;margin-bottom:6px;text-transform:uppercase;">Estoque</div>
-        <div style="font-size:24px;font-weight:700;color:#fff;">342 peças</div>
-        <div style="font-size:11px;color:#4b5563;margin-top:3px;">Em 47 produtos</div>
-      </div>
-      <div style="background:#1f2937;border-radius:10px;padding:16px 20px;flex:1;min-width:140px;">
-        <div style="font-size:11px;color:#6b7280;font-weight:500;margin-bottom:6px;text-transform:uppercase;">Clientes</div>
-        <div style="font-size:24px;font-weight:700;color:#fff;">128</div>
-        <div style="font-size:11px;color:#4b5563;margin-top:3px;">Cadastrados</div>
-      </div>
-      <div style="background:#1f2937;border-radius:10px;padding:16px 20px;flex:1;min-width:140px;">
-        <div style="font-size:11px;color:#6b7280;font-weight:500;margin-bottom:6px;text-transform:uppercase;">Faturamento</div>
-        <div style="font-size:24px;font-weight:700;color:#4ade80;">R$ 28.400</div>
-        <div style="font-size:11px;color:#4b5563;margin-top:3px;">Esse mês</div>
+    <!-- Preview -->
+    <div class="preview-wrap">
+      <div class="preview-inner">
+        <div class="stat-card">
+          <div class="stat-label">Vendas hoje</div>
+          <div class="stat-value">R$ 1.240</div>
+          <div class="stat-sub">8 vendas realizadas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Estoque</div>
+          <div class="stat-value">342 peças</div>
+          <div class="stat-sub">Em 47 produtos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Clientes</div>
+          <div class="stat-value">128</div>
+          <div class="stat-sub">Cadastrados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Faturamento</div>
+          <div class="stat-value" style="color:#4ade80;">R$ 28.400</div>
+          <div class="stat-sub">Esse mês</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- SOCIAL PROOF -->
-<div style="padding:16px 24px;background:#fff;border-bottom:1px solid #e5e7eb;text-align:center;">
-  <p style="font-size:13px;color:#6b7280;">Usado por lojistas de moda em todo o Brasil · <strong style="color:#0a0a0a;">Mais barato que Bling e Tiny</strong> · Suporte pelo WhatsApp</p>
+<div class="social">
+  <div class="container">
+    <p>Usado por lojistas de moda em todo o Brasil · <strong>Mais barato que Bling e Tiny</strong> · Suporte pelo WhatsApp</p>
+  </div>
 </div>
 
 <!-- FEATURES -->
-<section id="funcionalidades" style="padding:80px 24px;">
-  <div style="max-width:1100px;margin:0 auto;">
-    <div style="font-size:13px;font-weight:600;color:#2563eb;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">Funcionalidades</div>
-    <h2 style="font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-0.02em;color:#0a0a0a;max-width:500px;line-height:1.2;margin-bottom:48px;">
-      Tudo que sua loja precisa em um só lugar
-    </h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;">
-      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:24px;">
-        <div style="font-size:28px;margin-bottom:14px;">🛒</div>
-        <h3 style="font-size:16px;font-weight:600;color:#0a0a0a;margin-bottom:8px;">Frente de Caixa (PDV)</h3>
-        <p style="font-size:14px;color:#6b7280;line-height:1.6;">Venda rápido com scanner de código de barras. O estoque baixa automaticamente a cada venda.</p>
+<section class="section" id="funcionalidades">
+  <div class="container">
+    <div class="section-label">Funcionalidades</div>
+    <h2 class="section-title">Tudo que sua loja precisa em um só lugar</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🛒</div>
+        <h3>Frente de Caixa (PDV)</h3>
+        <p>Venda rápido com scanner de código de barras. O estoque baixa automaticamente a cada venda.</p>
       </div>
-      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:24px;">
-        <div style="font-size:28px;margin-bottom:14px;">👗</div>
-        <h3 style="font-size:16px;font-weight:600;color:#0a0a0a;margin-bottom:8px;">Estoque com Variações</h3>
-        <p style="font-size:14px;color:#6b7280;line-height:1.6;">Controle estoque por cor e tamanho. Alerta automático quando o estoque está baixo.</p>
+      <div class="feature-card">
+        <div class="feature-icon">👗</div>
+        <h3>Estoque com Variações</h3>
+        <p>Controle estoque por cor e tamanho. Alerta automático quando o estoque está baixo.</p>
       </div>
-      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:24px;">
-        <div style="font-size:28px;margin-bottom:14px;">📱</div>
-        <h3 style="font-size:16px;font-weight:600;color:#0a0a0a;margin-bottom:8px;">Catálogo Digital</h3>
-        <p style="font-size:14px;color:#6b7280;line-height:1.6;">Gere um link do seu catálogo e mande pelo WhatsApp. Seu cliente escolhe e o pedido chega direto para você.</p>
-        <span style="display:inline-block;background:#fef3c7;color:#92400e;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;margin-top:10px;text-transform:uppercase;">Exclusivo</span>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>Catálogo Digital</h3>
+        <p>Gere um link do seu catálogo e mande pelo WhatsApp. Seu cliente escolhe e o pedido chega direto para você.</p>
+        <span class="badge-new">Exclusivo</span>
       </div>
-      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:24px;">
-        <div style="font-size:28px;margin-bottom:14px;">👥</div>
-        <h3 style="font-size:16px;font-weight:600;color:#0a0a0a;margin-bottom:8px;">Histórico de Clientes</h3>
-        <p style="font-size:14px;color:#6b7280;line-height:1.6;">Saiba tudo sobre seus clientes: compras, ticket médio, preferências e muito mais.</p>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3>Histórico de Clientes</h3>
+        <p>Saiba tudo sobre seus clientes: compras, ticket médio e muito mais.</p>
       </div>
-      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:24px;">
-        <div style="font-size:28px;margin-bottom:14px;">💰</div>
-        <h3 style="font-size:16px;font-weight:600;color:#0a0a0a;margin-bottom:8px;">Financeiro Completo</h3>
-        <p style="font-size:14px;color:#6b7280;line-height:1.6;">Contas a pagar e receber, DRE e relatório diário. Feche o caixa sabendo exatamente quanto entrou.</p>
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3>Financeiro Completo</h3>
+        <p>Contas a pagar e receber, DRE e relatório diário. Feche o caixa sabendo exatamente quanto entrou.</p>
       </div>
-      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:24px;">
-        <div style="font-size:28px;margin-bottom:14px;">🏷️</div>
-        <h3 style="font-size:16px;font-weight:600;color:#0a0a0a;margin-bottom:8px;">Etiquetas e NF-e</h3>
-        <p style="font-size:14px;color:#6b7280;line-height:1.6;">Imprima etiquetas com código de barras e emita notas fiscais diretamente pelo sistema.</p>
+      <div class="feature-card">
+        <div class="feature-icon">🏷️</div>
+        <h3>Etiquetas e NF-e</h3>
+        <p>Imprima etiquetas com código de barras e emita notas fiscais diretamente pelo sistema.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CATALOGO DESTAQUE -->
-<section style="background:#0a0a0a;color:#fff;padding:80px 24px;">
-  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
-    <div>
-      <span style="display:inline-block;background:#fbbf24;color:#78350f;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;margin-bottom:20px;text-transform:uppercase;">⭐ Recurso favorito</span>
-      <h2 style="font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-0.02em;line-height:1.2;margin-bottom:20px;">
-        Venda pelo WhatsApp com catálogo digital
-      </h2>
-      <p style="font-size:16px;color:#9ca3af;line-height:1.7;margin-bottom:28px;">
-        Gere um link único do seu catálogo, mande para seus clientes e eles fazem o pedido direto pelo WhatsApp. Sem site, sem loja virtual, sem complicação.
-      </p>
-      <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
-        <li style="display:flex;align-items:center;gap:10px;font-size:15px;color:#d1d5db;"><span style="color:#4ade80;font-weight:700;">✓</span> Link único para cada loja</li>
-        <li style="display:flex;align-items:center;gap:10px;font-size:15px;color:#d1d5db;"><span style="color:#4ade80;font-weight:700;">✓</span> Cliente monta o carrinho e envia pedido</li>
-        <li style="display:flex;align-items:center;gap:10px;font-size:15px;color:#d1d5db;"><span style="color:#4ade80;font-weight:700;">✓</span> Fotos, preços e variações automáticas</li>
-        <li style="display:flex;align-items:center;gap:10px;font-size:15px;color:#d1d5db;"><span style="color:#4ade80;font-weight:700;">✓</span> Sem precisar de site ou app</li>
-      </ul>
-    </div>
-    <div style="background:#1f2937;border-radius:16px;padding:24px;border:1px solid #374151;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
-        <div style="width:10px;height:10px;border-radius:50%;background:#ef4444;"></div>
-        <div style="width:10px;height:10px;border-radius:50%;background:#fbbf24;"></div>
-        <div style="width:10px;height:10px;border-radius:50%;background:#4ade80;"></div>
-        <span style="font-size:12px;color:#6b7280;margin-left:8px;">Catálogo Digital — Rakko</span>
+<!-- CATALOGO -->
+<section class="catalogo">
+  <div class="container">
+    <div class="catalogo-grid">
+      <div>
+        <span class="catalogo-tag">⭐ Recurso favorito</span>
+        <h2>Venda pelo WhatsApp com catálogo digital</h2>
+        <p>Gere um link único do seu catálogo, mande para seus clientes e eles fazem o pedido direto pelo WhatsApp. Sem site, sem loja virtual, sem complicação.</p>
+        <ul class="catalogo-list">
+          <li>Link único para cada loja</li>
+          <li>Cliente monta o carrinho e envia pedido</li>
+          <li>Fotos, preços e variações automáticas</li>
+          <li>Sem precisar de site ou app</li>
+        </ul>
       </div>
-      <div style="background:#111827;border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;">
-        <div style="width:44px;height:44px;border-radius:8px;background:#374151;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">👗</div>
-        <div style="flex:1;">
-          <div style="font-size:13px;font-weight:500;color:#f3f4f6;margin-bottom:3px;">Vestido Floral Rosa</div>
-          <div style="font-size:12px;color:#4ade80;font-weight:600;">R$ 89,90</div>
+      <div class="mockup">
+        <div class="mockup-dots">
+          <div class="mockup-dot" style="background:#ef4444;"></div>
+          <div class="mockup-dot" style="background:#fbbf24;"></div>
+          <div class="mockup-dot" style="background:#4ade80;"></div>
         </div>
-        <button style="background:#25D366;color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;">Pedir</button>
-      </div>
-      <div style="background:#111827;border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;">
-        <div style="width:44px;height:44px;border-radius:8px;background:#374151;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">👖</div>
-        <div style="flex:1;">
-          <div style="font-size:13px;font-weight:500;color:#f3f4f6;margin-bottom:3px;">Calça Wide Leg Preta</div>
-          <div style="font-size:12px;color:#4ade80;font-weight:600;">R$ 129,90</div>
+        <div class="mockup-item">
+          <div class="mockup-emoji">👗</div>
+          <div class="mockup-info">
+            <div class="mockup-name">Vestido Floral Rosa</div>
+            <div class="mockup-price">R$ 89,90</div>
+          </div>
+          <button class="mockup-btn">Pedir</button>
         </div>
-        <button style="background:#25D366;color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;">Pedir</button>
-      </div>
-      <div style="background:#111827;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;">
-        <div style="width:44px;height:44px;border-radius:8px;background:#374151;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">👕</div>
-        <div style="flex:1;">
-          <div style="font-size:13px;font-weight:500;color:#f3f4f6;margin-bottom:3px;">Blusa Cropped Branca</div>
-          <div style="font-size:12px;color:#4ade80;font-weight:600;">R$ 49,90</div>
+        <div class="mockup-item">
+          <div class="mockup-emoji">👖</div>
+          <div class="mockup-info">
+            <div class="mockup-name">Calça Wide Leg Preta</div>
+            <div class="mockup-price">R$ 129,90</div>
+          </div>
+          <button class="mockup-btn">Pedir</button>
         </div>
-        <button style="background:#25D366;color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;">Pedir</button>
+        <div class="mockup-item">
+          <div class="mockup-emoji">👕</div>
+          <div class="mockup-info">
+            <div class="mockup-name">Blusa Cropped Branca</div>
+            <div class="mockup-price">R$ 49,90</div>
+          </div>
+          <button class="mockup-btn">Pedir</button>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- PLANOS -->
-<section style="padding:80px 24px;background:#f9fafb;">
-  <div style="max-width:1100px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:48px;">
-      <div style="font-size:13px;font-weight:600;color:#2563eb;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">Planos e Preços</div>
-      <h2 style="font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-0.02em;color:#0a0a0a;margin-bottom:12px;">Sem surpresas, sem fidelidade</h2>
-      <p style="font-size:16px;color:#6b7280;">Cancele quando quiser. Sem taxa de adesão.</p>
+<section class="planos">
+  <div class="container">
+    <div class="planos-header">
+      <div class="section-label">Planos e Preços</div>
+      <h2 style="font-size:clamp(24px,4vw,38px);font-weight:700;letter-spacing:-0.02em;margin-bottom:8px;">Sem surpresas, sem fidelidade</h2>
+      <p style="font-size:15px;color:#6b7280;">Cancele quando quiser. Sem taxa de adesão.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
-
-      <!-- BÁSICO -->
-      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:32px;transition:all 0.15s;">
-        <div style="font-size:14px;font-weight:600;color:#6b7280;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;">Básico</div>
-        <div style="font-size:42px;font-weight:700;color:#0a0a0a;letter-spacing:-0.03em;line-height:1;margin-bottom:4px;">R$59<span style="font-size:20px;font-weight:500;color:#6b7280;">,99/mês</span></div>
-        <p style="font-size:13px;color:#6b7280;margin-bottom:24px;">Para lojas pequenas que querem organização</p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin-bottom:24px;">
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> PDV com scanner</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Estoque com variações</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Catálogo digital</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Até 500 fotos</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> 1 vendedor</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Suporte por email</li>
+    <div class="planos-grid">
+      <div class="plano">
+        <div class="plano-name">Básico</div>
+        <div class="plano-price">R$59<small>,99/mês</small></div>
+        <p class="plano-desc">Para lojas pequenas que querem organização</p>
+        <hr>
+        <ul class="plano-items">
+          <li><span>✓</span> PDV com scanner</li>
+          <li><span>✓</span> Estoque com variações</li>
+          <li><span>✓</span> Catálogo digital</li>
+          <li><span>✓</span> Até 500 fotos</li>
+          <li><span>✓</span> 1 vendedor</li>
+          <li><span>✓</span> Suporte por email</li>
         </ul>
-        <a href="https://wa.me/5584981022946?text=Quero%20o%20plano%20B%C3%A1sico%20do%20Rakko" target="_blank"
-          style="display:block;width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:1px solid #e5e7eb;background:#f9fafb;color:#0a0a0a;text-align:center;text-decoration:none;">
-          Começar agora
-        </a>
+        <a href="https://wa.me/5584981022946?text=Quero%20o%20plano%20B%C3%A1sico%20do%20Rakko" target="_blank" class="btn-plano btn-light">Começar agora</a>
       </div>
-
-      <!-- PRO -->
-      <div style="background:#fff;border:2px solid #0a0a0a;border-radius:16px;padding:32px;position:relative;transform:scale(1.03);">
-        <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#0a0a0a;color:#fff;font-size:11px;font-weight:700;padding:3px 14px;border-radius:99px;text-transform:uppercase;white-space:nowrap;">Mais popular</div>
-        <div style="font-size:14px;font-weight:600;color:#6b7280;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;">Pro</div>
-        <div style="font-size:42px;font-weight:700;color:#0a0a0a;letter-spacing:-0.03em;line-height:1;margin-bottom:4px;">R$89<span style="font-size:20px;font-weight:500;color:#6b7280;">,90/mês</span></div>
-        <p style="font-size:13px;color:#6b7280;margin-bottom:24px;">Para lojas em crescimento</p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin-bottom:24px;">
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Tudo do Básico</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Até 1.000 fotos</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Até 3 vendedores</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Comissões automáticas</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Relatórios avançados</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Suporte por WhatsApp</li>
+      <div class="plano popular">
+        <div class="popular-tag">Mais popular</div>
+        <div class="plano-name">Pro</div>
+        <div class="plano-price">R$89<small>,90/mês</small></div>
+        <p class="plano-desc">Para lojas em crescimento</p>
+        <hr>
+        <ul class="plano-items">
+          <li><span>✓</span> Tudo do Básico</li>
+          <li><span>✓</span> Até 1.000 fotos</li>
+          <li><span>✓</span> Até 3 vendedores</li>
+          <li><span>✓</span> Comissões automáticas</li>
+          <li><span>✓</span> Relatórios avançados</li>
+          <li><span>✓</span> Suporte por WhatsApp</li>
         </ul>
-        <a href="https://wa.me/5584981022946?text=Quero%20o%20plano%20Pro%20do%20Rakko" target="_blank"
-          style="display:block;width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#0a0a0a;color:#fff;text-align:center;text-decoration:none;">
-          Começar agora
-        </a>
+        <a href="https://wa.me/5584981022946?text=Quero%20o%20plano%20Pro%20do%20Rakko" target="_blank" class="btn-plano btn-dark">Começar agora</a>
       </div>
-
-      <!-- PREMIUM -->
-      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:32px;">
-        <div style="font-size:14px;font-weight:600;color:#6b7280;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;">Premium</div>
-        <div style="font-size:42px;font-weight:700;color:#0a0a0a;letter-spacing:-0.03em;line-height:1;margin-bottom:4px;">R$119<span style="font-size:20px;font-weight:500;color:#6b7280;">,90/mês</span></div>
-        <p style="font-size:13px;color:#6b7280;margin-bottom:24px;">Para lojas grandes e multivendedores</p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin-bottom:24px;">
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Tudo do Pro</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Até 1.500 fotos</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Vendedores ilimitados</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> NF-e integrada</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Backup automático</li>
-          <li style="display:flex;gap:8px;font-size:14px;color:#374151;"><span style="color:#166534;font-weight:700;">✓</span> Suporte prioritário</li>
+      <div class="plano">
+        <div class="plano-name">Premium</div>
+        <div class="plano-price">R$119<small>,90/mês</small></div>
+        <p class="plano-desc">Para lojas grandes e multivendedores</p>
+        <hr>
+        <ul class="plano-items">
+          <li><span>✓</span> Tudo do Pro</li>
+          <li><span>✓</span> Até 1.500 fotos</li>
+          <li><span>✓</span> Vendedores ilimitados</li>
+          <li><span>✓</span> NF-e integrada</li>
+          <li><span>✓</span> Backup automático</li>
+          <li><span>✓</span> Suporte prioritário</li>
         </ul>
-        <a href="https://wa.me/5584981022946?text=Quero%20o%20plano%20Premium%20do%20Rakko" target="_blank"
-          style="display:block;width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:1px solid #e5e7eb;background:#f9fafb;color:#0a0a0a;text-align:center;text-decoration:none;">
-          Começar agora
-        </a>
+        <a href="https://wa.me/5584981022946?text=Quero%20o%20plano%20Premium%20do%20Rakko" target="_blank" class="btn-plano btn-light">Começar agora</a>
       </div>
     </div>
-
-    <!-- Comparação concorrentes -->
-    <div style="margin-top:32px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px 24px;text-align:center;">
-      <p style="font-size:14px;color:#6b7280;">
-        💡 <strong style="color:#0a0a0a;">Bling custa R$99/mês · Tiny custa R$89/mês</strong> — O Rakko começa em R$59,99/mês com catálogo digital incluso!
-      </p>
+    <div class="compare-box">
+      <p>💡 <strong>Bling custa R$99/mês · Tiny custa R$89/mês</strong> — O Rakko começa em R$59,99/mês com catálogo digital incluso!</p>
     </div>
   </div>
 </section>
 
 <!-- FAQ -->
-<section style="padding:80px 24px;">
-  <div style="max-width:700px;margin:0 auto;">
-    <h2 style="font-size:clamp(28px,4vw,36px);font-weight:700;letter-spacing:-0.02em;text-align:center;margin-bottom:48px;color:#0a0a0a;">Perguntas frequentes</h2>
-
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-question">Preciso instalar algum programa? <span class="faq-icon">+</span></div>
-      <div class="faq-answer">Não! O Rakko funciona direto no navegador, em qualquer dispositivo — computador, celular ou tablet. Basta ter internet.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-question">Posso cancelar quando quiser? <span class="faq-icon">+</span></div>
-      <div class="faq-answer">Sim! Não tem fidelidade nem multa. Você cancela a qualquer momento sem burocracia.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-question">Como funciona o catálogo digital? <span class="faq-icon">+</span></div>
-      <div class="faq-answer">Você gera um link único da sua loja dentro do sistema. Manda esse link para seus clientes pelo WhatsApp. Eles abrem no celular, escolhem os produtos, montam o carrinho e enviam o pedido direto para o seu WhatsApp. Simples assim!</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-question">Meus dados ficam seguros? <span class="faq-icon">+</span></div>
-      <div class="faq-answer">Sim! O Rakko usa criptografia e seus dados ficam em servidores seguros na nuvem. Você pode fazer backup a qualquer momento.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-question">Tem suporte para configurar o sistema? <span class="faq-icon">+</span></div>
-      <div class="faq-answer">Sim! Após assinar, nossa equipe te ajuda a configurar o sistema pelo WhatsApp. A maioria dos clientes aprende a usar no mesmo dia.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-question">Funciona para loja online também? <span class="faq-icon">+</span></div>
-      <div class="faq-answer">Sim! O catálogo digital é perfeito para vendas online pelo WhatsApp e Instagram. Muitos clientes usam o Rakko para gerenciar tanto a loja física quanto as vendas online.</div>
+<section class="faq">
+  <div class="container">
+    <h2 class="faq-title">Perguntas frequentes</h2>
+    <div class="faq-wrap">
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Preciso instalar algum programa? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Não! O Rakko funciona direto no navegador, em qualquer dispositivo — computador, celular ou tablet. Basta ter internet.</div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Posso cancelar quando quiser? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Sim! Não tem fidelidade nem multa. Você cancela a qualquer momento sem burocracia.</div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Como funciona o catálogo digital? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Você gera um link único da sua loja dentro do sistema. Manda esse link para seus clientes pelo WhatsApp. Eles abrem no celular, escolhem os produtos e enviam o pedido direto para o seu WhatsApp.</div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Meus dados ficam seguros? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Sim! O Rakko usa criptografia e seus dados ficam em servidores seguros na nuvem. Você pode fazer backup a qualquer momento.</div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Tem suporte para configurar o sistema? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Sim! Após assinar, nossa equipe te ajuda a configurar o sistema pelo WhatsApp. A maioria dos clientes aprende a usar no mesmo dia.</div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Funciona para loja online também? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Sim! O catálogo digital é perfeito para vendas online pelo WhatsApp e Instagram. Muitos clientes usam o Rakko para gerenciar tanto a loja física quanto as vendas online.</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- CTA FINAL -->
-<section style="padding:80px 24px;text-align:center;background:#0a0a0a;color:#fff;">
-  <div style="max-width:600px;margin:0 auto;">
-    <h2 style="font-size:clamp(28px,4vw,48px);font-weight:700;letter-spacing:-0.03em;margin-bottom:16px;">Pronto para organizar sua loja?</h2>
-    <p style="font-size:18px;color:#9ca3af;margin-bottom:36px;">Fale com a gente agora pelo WhatsApp e comece hoje mesmo.</p>
-    <a href="https://wa.me/5584981022946?text=Ol%C3%A1!%20Quero%20conhecer%20o%20Rakko%20e%20assinar" target="_blank"
-      style="display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:16px 32px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;border:none;text-decoration:none;">
-      💬 Falar pelo WhatsApp
-    </a>
-    <p style="font-size:13px;color:#4b5563;margin-top:20px;">Sem contrato · Sem taxa de adesão · Cancele quando quiser</p>
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <h2>Pronto para organizar sua loja?</h2>
+    <p>Fale com a gente agora pelo WhatsApp e comece hoje mesmo.</p>
+    <a href="https://wa.me/5584981022946?text=Ol%C3%A1!%20Quero%20conhecer%20o%20Rakko%20e%20assinar" target="_blank" class="btn-wa">💬 Falar pelo WhatsApp</a>
+    <p class="cta-note">Sem contrato · Sem taxa de adesão · Cancele quando quiser</p>
   </div>
 </section>
 
 <!-- FOOTER -->
-<div style="border-top:1px solid #e5e7eb;padding:32px 24px;">
-  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div style="width:30px;height:30px;background:#0a0a0a;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;font-style:italic;font-family:Georgia,serif;">R</div>
-      <span style="font-weight:700;font-size:15px;">Rakko</span>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="logo">
+        <div class="logo-icon" style="width:30px;height:30px;font-size:13px;">R</div>
+        <span style="font-weight:700;font-size:15px;">Rakko</span>
+      </div>
+      <p>© 2026 Rakko · Sistema de gestão para lojas de moda</p>
+      <a href="https://wa.me/5584981022946" target="_blank" style="font-size:13px;color:#6b7280;">📱 (84) 98102-2946</a>
     </div>
-    <p style="font-size:13px;color:#6b7280;">© 2026 Rakko · Sistema de gestão para lojas de moda</p>
-    <a href="https://wa.me/5584981022946" target="_blank" style="font-size:13px;color:#6b7280;">📱 (84) 98102-2946</a>
   </div>
-</div>
+</footer>
 
 <!-- WHATSAPP FLOAT -->
-<a href="https://wa.me/5584981022946?text=Ol%C3%A1!%20Quero%20conhecer%20o%20Rakko" target="_blank"
-  style="position:fixed;bottom:24px;right:24px;z-index:999;background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;">
-  💬
-</a>
+<a href="https://wa.me/5584981022946?text=Ol%C3%A1!%20Quero%20conhecer%20o%20Rakko" target="_blank" class="wa-float">💬</a>
 
 </body>
 </html>
